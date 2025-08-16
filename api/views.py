@@ -90,6 +90,7 @@ class EmployeeDetails(APIView):
 
 '''
 
+'''
 class Employees(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
   queryset = Employee.objects.all()
   serializer_class = EmployeeSerializer
@@ -112,3 +113,17 @@ class EmployeeDetails(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins
   
   def delete(self, request, pk):
     return self.destroy(request, pk)
+
+'''
+
+
+# Generics
+
+class Employees(generics.ListCreateAPIView):
+  queryset = Employee.objects.all()
+  serializer_class = EmployeeSerializer
+
+class EmployeeDetails(generics.RetrieveUpdateDestroyAPIView):
+  queryset = Employee.objects.all()
+  serializer_class = EmployeeSerializer
+  lookup_field = 'pk'
