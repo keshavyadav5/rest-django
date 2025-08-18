@@ -7,6 +7,10 @@ from rest_framework.views import APIView
 from employees.models import Employee
 from django.http import Http404
 from rest_framework import generics, mixins
+from rest_framework import viewsets
+from employees.paginations import CustomPagination
+from rest_framework import filters
+from employees.filters import EmployeeFilter
 
 @api_view(['GET', 'POST'])
 def students(request):
@@ -122,8 +126,61 @@ class EmployeeDetails(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins
 class Employees(generics.ListCreateAPIView):
   queryset = Employee.objects.all()
   serializer_class = EmployeeSerializer
+  pagination_class = CustomPagination
+  filterset_class = EmployeeFilter
 
 class EmployeeDetails(generics.RetrieveUpdateDestroyAPIView):
   queryset = Employee.objects.all()
   serializer_class = EmployeeSerializer
   lookup_field = 'pk'
+
+
+
+
+
+# class EmployeeViewset(viewsets.ModelViewSet):
+    # def list(self, request):
+    #     queryset = Employee.objects.all()
+    #     serializer = EmployeeSerializer(queryset, many=True)
+    #     return Response(serializer.data)
+    
+    # def create(self, request):
+    #     serializer = EmployeeSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors)
+    
+    # def retrieve(self, request, pk=None):
+    #     # queryset = Employee.objects.all()
+    #     employee = get_object_or_404(Employee, pk=pk)
+    #     serializer = EmployeeSerializer(employee)
+    #     return Response(serializer.data)
+    
+    # def update(self, request, pk=None):
+    #     employee = get_object_or_404(Employee, pk=pk)
+    #     serializer = EmployeeSerializer(employee, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors)
+    
+    # def delete(self, request, pk=None):
+    #     employee = get_object_or_404(Employee, pk=pk)
+    #     employee.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # queryset = Employee.objects.all()
+    # serializer_class = EmployeeSerializer
+    # pagination_class = CustomPagination
+    # filterset_class = EmployeeFilter
+    
+    
+    
+    
+
+
+# class EmployeeViewset(viewsets.ModelViewSet):
+#   queryset = Employee.objects.all()
+#   serializer_class = EmployeeSerializer
+#   pagination_class = CustomPagination
